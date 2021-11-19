@@ -1,0 +1,8 @@
+misc.xml
+.idea
+*.iml
+*.pyc
+.pytest_cache
+/build
+/dist
+*.egg-info
