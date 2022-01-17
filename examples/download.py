@@ -4,8 +4,10 @@ from betfairmarketvolumesclient import Client
 
 client = Client()
 
-# get todays horse racing selections
-horse_racing_selections = client.get_horse_racing_markets_for_date(date=datetime.utcnow())
+# get today's horse racing selections
+horse_racing_selections = client.get_horse_racing_markets_for_date(
+    date=datetime.utcnow()
+)
 
-# get todays greyhound selections
+# get today's greyhound selections
 greyhound_selections = client.get_greyhound_markets_for_date(date=datetime.utcnow())

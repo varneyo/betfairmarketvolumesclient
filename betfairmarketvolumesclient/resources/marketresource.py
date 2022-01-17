@@ -1,11 +1,12 @@
 from datetime import datetime
+from typing import Union
 
 from pydantic import Field, validator
 
 from .baseresource import BaseResource
 
 
-class Selection(BaseResource):
+class MarketSelection(BaseResource):
     event_id: int = Field(alias="EVENT_ID")
     menu_hint: str = Field(alias="MENU_HINT")
     event_name: str = Field(alias="EVENT_NAME")
@@ -24,11 +25,44 @@ class Selection(BaseResource):
     pp_traded_volume: float = Field(alias="PPTRADEDVOL")
     ip_traded_volume: float = Field(alias="IPTRADEDVOL")
 
-    @validator('event_dt', pre=True)
-    def parse_event_dt(cls, v: str) -> datetime:
+    @validator("event_dt", pre=True)
+    def parse_event_dt(cls, v: Union[datetime, str]) -> datetime:
+        if isinstance(v, datetime):
+            return v
         if isinstance(v, str):
             return datetime.strptime(v, "%d-%m-%Y %H:%M")
 
     @property
     def market_id(self) -> str:
         return f"1.{self.event_id}"
+
+    @property
+    def is_win_market(self) -> bool:
+        return (
+            True
+            if (self.is_place_market is False)
+               and (self.is_forecast_market is False)
+               and (self.is_alternative_market is False)
+            else False
+        )
+
+    @property
+    def is_place_market(self) -> bool:
+        return True if self.event_name.lower() == "to be placed" else False
+
+    @property
+    def is_forecast_market(self) -> bool:
+        return (
+            True
+            if self.event_name.lower() in ["forecast", "forecsat", "reverse fc"]
+            else False
+        )
+
+    @property
+    def is_alternative_market(self) -> bool:
+        return (
+            True
+            if (self.event_name.lower() in ["official going", "each way", "yes", "no"])
+               or ("tbp" in self.event_name.lower())
+            else False
+        )

@@ -1,1 +1,1 @@
-from .marketresource import Selection
+from .marketresource import MarketSelection

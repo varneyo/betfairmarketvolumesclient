@@ -3,7 +3,7 @@ from typing import Optional
 
 class BFError(Exception):
     """
-        base exception class
+    base exception class
 
     """
 
