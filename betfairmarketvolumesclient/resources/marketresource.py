@@ -30,7 +30,11 @@ class MarketSelection(BaseResource):
         if isinstance(v, datetime):
             return v
         if isinstance(v, str):
-            return datetime.strptime(v, "%d-%m-%Y %H:%M")
+            try:
+                return datetime.strptime(v, "%d-%m-%Y %H:%M")
+            except ValueError:
+                pass
+            return datetime.fromisoformat(v)
 
     @property
     def market_id(self) -> str:

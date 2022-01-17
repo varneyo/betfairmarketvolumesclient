@@ -10,7 +10,7 @@ with open(os.path.join(os.path.dirname(__file__), "requirements.txt")) as f:
 
 setup(
     name="betfairmarketvolumesclient",
-    version="0.0.4",
+    version="0.0.5",
     author="Oliver Varney",
     author_email="oliverashleyvarney@gmail.com",
     description="Simple file downloader for the betfair daily sp files.",

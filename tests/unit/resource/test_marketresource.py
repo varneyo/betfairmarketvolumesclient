@@ -58,3 +58,26 @@ class TestMarketSelectionResource:
         market_selection.event_name = "each way"
         assert market_selection.is_alternative_market
         assert market_selection.is_win_market is False
+
+        # test parsing of isoformat
+        date_string = datetime(2020, 11, 23, 14, 55).isoformat()
+        market_selection = MarketSelection(
+            event_id=175829050,
+            menu_hint="IRE / Dund  23rd Nov",
+            event_name="7f Hcap",
+            event_dt=date_string,
+            selection_id=19450847,
+            selection_name="Hiella",
+            win_lose=0,
+            bsp=10.564986,
+            pp_wap=11.17356,
+            morning_wap=15.82474,
+            pp_max=18,
+            pp_min=9.6,
+            ip_max=1000,
+            ip_min=11,
+            morning_traded_volume=100.36,
+            pp_traded_volume=10825.92,
+            ip_traded_volume=1229,
+        )
+        assert market_selection.event_dt.date() == datetime(2020, 11, 23, 14, 55).date()
