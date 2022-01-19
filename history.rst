@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+0.0.6 (17-01-2022)
++++++++++++++++++++
+**Logging update**
+
+- change to logging exception handling.
+
 0.0.5 (17-01-2022)
 +++++++++++++++++++
 **Resource update**

@@ -31,7 +31,14 @@ class Client:
         try:
             return pd.read_csv(url)
         except HTTPError as e:
-            logger.error(f"Issue retrieving data for url: {url}, with exception: {e}")
+            if e.status == 404:
+                logger.info(
+                    f"404 error with url: {url}. It is likely the file does not exist"
+                )
+            else:
+                logger.error(
+                    f"Issue retrieving data for url: {url}, with exception: {e}"
+                )
 
     def _process_data(self, data: pd.DataFrame) -> List[MarketSelection]:
         if isinstance(data, pd.DataFrame) and data.shape[0] > 0:
@@ -47,7 +54,9 @@ class Client:
             )
         )
 
-    def get_gb_place_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
+    def get_gb_place_horse_racing_markets(
+            self, date: datetime
+    ) -> List[MarketSelection]:
         return self._process_data(
             self._request(
                 url=build_horse_racing_url(
@@ -68,7 +77,9 @@ class Client:
             )
         )
 
-    def get_ire_place_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
+    def get_ire_place_horse_racing_markets(
+            self, date: datetime
+    ) -> List[MarketSelection]:
         return self._process_data(
             self._request(
                 url=build_horse_racing_url(
@@ -89,7 +100,9 @@ class Client:
             )
         )
 
-    def get_aus_place_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
+    def get_aus_place_horse_racing_markets(
+            self, date: datetime
+    ) -> List[MarketSelection]:
         return self._process_data(
             self._request(
                 url=build_horse_racing_url(
@@ -110,7 +123,9 @@ class Client:
             )
         )
 
-    def get_usa_place_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
+    def get_usa_place_horse_racing_markets(
+            self, date: datetime
+    ) -> List[MarketSelection]:
         return self._process_data(
             self._request(
                 url=build_horse_racing_url(
@@ -131,7 +146,9 @@ class Client:
             )
         )
 
-    def get_rsa_place_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
+    def get_rsa_place_horse_racing_markets(
+            self, date: datetime
+    ) -> List[MarketSelection]:
         return self._process_data(
             self._request(
                 url=build_horse_racing_url(

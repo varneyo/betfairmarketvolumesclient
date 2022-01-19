@@ -38,9 +38,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_place,
         )
-        selections: List[MarketSelection] = mock_client.get_gb_place_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_gb_place_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -52,9 +52,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_win,
         )
-        selections: List[MarketSelection] = mock_client.get_ire_win_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_ire_win_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -69,9 +69,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_place,
         )
-        selections: List[MarketSelection] = mock_client.get_ire_place_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_ire_place_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -83,9 +83,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_win,
         )
-        selections: List[MarketSelection] = mock_client.get_aus_win_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_aus_win_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -100,9 +100,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_place,
         )
-        selections: List[MarketSelection] = mock_client.get_aus_place_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_aus_place_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -114,9 +114,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_win,
         )
-        selections: List[MarketSelection] = mock_client.get_usa_win_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_usa_win_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -131,9 +131,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_place,
         )
-        selections: List[MarketSelection] = mock_client.get_usa_place_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_usa_place_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -145,9 +145,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_win,
         )
-        selections: List[MarketSelection] = mock_client.get_rsa_win_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_rsa_win_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
@@ -162,9 +162,9 @@ class TestClient:
             "betfairmarketvolumesclient.client.Client._request",
             return_value=mock_horse_racing_place,
         )
-        selections: List[MarketSelection] = mock_client.get_rsa_place_horse_racing_markets(
-            datetime.utcnow()
-        )
+        selections: List[
+            MarketSelection
+        ] = mock_client.get_rsa_place_horse_racing_markets(datetime.utcnow())
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
