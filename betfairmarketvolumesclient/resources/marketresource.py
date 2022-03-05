@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Union
+from typing import Union, Optional
 
 from pydantic import Field, validator
 
@@ -24,6 +24,8 @@ class MarketSelection(BaseResource):
     morning_traded_volume: float = Field(alias="MORNINGTRADEDVOL")
     pp_traded_volume: float = Field(alias="PPTRADEDVOL")
     ip_traded_volume: float = Field(alias="IPTRADEDVOL")
+    country: Optional[str] = None
+    _file_url: Optional[str] = None
 
     @validator("event_dt", pre=True)
     def parse_event_dt(cls, v: Union[datetime, str]) -> datetime:

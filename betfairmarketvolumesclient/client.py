@@ -40,124 +40,154 @@ class Client:
                     f"Issue retrieving data for url: {url}, with exception: {e}"
                 )
 
-    def _process_data(self, data: pd.DataFrame) -> List[MarketSelection]:
+    def _process_data(self, data: pd.DataFrame, file_url: str, country: str) -> List[MarketSelection]:
         if isinstance(data, pd.DataFrame) and data.shape[0] > 0:
-            return parse_from_data_frame(data=data)
+            return parse_from_data_frame(data=data, file_url=file_url, country=country)
         return []
 
     def get_gb_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
+        file_url = build_horse_racing_url(
+                    base_url=self.BASE_URL, country="uk", win_or_place="win", date=date
+        )
         return self._process_data(
             self._request(
-                url=build_horse_racing_url(
-                    base_url=self.BASE_URL, country="uk", win_or_place="win", date=date
-                )
-            )
+                url=file_url
+            ),
+            file_url=file_url,
+            country='GB'
         )
 
     def get_gb_place_horse_racing_markets(
             self, date: datetime
     ) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL,
                     country="uk",
                     win_or_place="place",
                     date=date,
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='GB'
         )
 
     def get_ire_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL, country="ire", win_or_place="win", date=date
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='IE'
         )
 
     def get_ire_place_horse_racing_markets(
             self, date: datetime
     ) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL,
                     country="ire",
                     win_or_place="place",
                     date=date,
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='IE'
         )
 
     def get_aus_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL, country="aus", win_or_place="win", date=date
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='AUS'
         )
 
     def get_aus_place_horse_racing_markets(
             self, date: datetime
     ) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL,
                     country="aus",
                     win_or_place="place",
                     date=date,
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='AUS'
         )
 
     def get_usa_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL, country="usa", win_or_place="win", date=date
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='USA'
         )
 
     def get_usa_place_horse_racing_markets(
             self, date: datetime
     ) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL,
                     country="usa",
                     win_or_place="place",
                     date=date,
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='USA'
         )
 
     def get_rsa_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL, country="rsa", win_or_place="win", date=date
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='RSA'
         )
 
     def get_rsa_place_horse_racing_markets(
             self, date: datetime
     ) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_horse_racing_url(
+        file_url = build_horse_racing_url(
                     base_url=self.BASE_URL,
                     country="rsa",
                     win_or_place="place",
                     date=date,
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='RSA'
         )
 
     def get_horse_racing_markets_for_date(
@@ -214,21 +244,28 @@ class Client:
         return all_selections
 
     def get_greyhound_win_markets(self, date: datetime) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_greyhound_url(
+        file_url = build_greyhound_url(
                     base_url=self.BASE_URL, win_or_place="win", date=date
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='ALL'
         )
 
     def get_greyhound_place_markets(self, date: datetime) -> List[MarketSelection]:
-        return self._process_data(
-            self._request(
-                url=build_greyhound_url(
+        file_url = build_greyhound_url(
                     base_url=self.BASE_URL, win_or_place="place", date=date
                 )
-            )
+        return self._process_data(
+            self._request(
+                url=file_url
+            ),
+            file_url=file_url,
+            country='ALL'
+
         )
 
     def get_greyhound_markets_for_date(

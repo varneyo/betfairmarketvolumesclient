@@ -256,10 +256,10 @@ class TestClient:
         rsa_place.assert_called()
 
     def test__process_data(self, mock_client: Client, mock_greyhound_win: DataFrame):
-        selections = mock_client._process_data(mock_greyhound_win)
+        selections = mock_client._process_data(mock_greyhound_win, file_url='test', country='ALL')
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
 
-        selections = mock_client._process_data([])
+        selections = mock_client._process_data([], country=None, file_url=None)
         assert selections == []

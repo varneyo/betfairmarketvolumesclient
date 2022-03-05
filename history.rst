@@ -3,6 +3,13 @@
 Release History
 ---------------
 
+0.0.7 (05-03-2022)
++++++++++++++++++++
+**Selection country added for horses**
+
+- country and url added for horses
+
+
 0.0.6 (17-01-2022)
 +++++++++++++++++++
 **Logging update**

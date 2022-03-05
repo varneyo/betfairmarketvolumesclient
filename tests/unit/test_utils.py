@@ -13,13 +13,13 @@ from betfairmarketvolumesclient.utils import (
 
 class TestUtils:
     def test_parse_from_data_frame(self, mock_greyhound_win: DataFrame):
-        selections = parse_from_data_frame(mock_greyhound_win)
+        selections = parse_from_data_frame(mock_greyhound_win, country='GB', file_url='test')
         assert isinstance(selections, list)
         for s in selections:
             assert isinstance(s, MarketSelection)
 
     def test_parse_to_data_frame(self, mock_greyhound_win: DataFrame):
-        selections = parse_from_data_frame(mock_greyhound_win)
+        selections = parse_from_data_frame(mock_greyhound_win, country='GB', file_url='test')
 
         df = parse_to_data_frame(selections)
         assert isinstance(df, DataFrame)
