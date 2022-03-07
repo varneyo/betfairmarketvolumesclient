@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Union, Optional
-
+import math
 from pydantic import Field, validator
 
 from .baseresource import BaseResource
@@ -14,8 +14,8 @@ class MarketSelection(BaseResource):
     selection_id: int = Field(alias="SELECTION_ID")
     selection_name: str = Field(alias="SELECTION_NAME")
     win_lose: int = Field(alias="WIN_LOSE")
-    bsp: float = Field(alias="BSP")
-    pp_wap: float = Field(alias="PPWAP")
+    bsp: Optional[float] = Field(alias="BSP", default=None)
+    pp_wap: Optional[float] = Field(alias="PPWAP", default=None)
     morning_wap: float = Field(alias="PPMIN")
     pp_max: float = Field(alias="PPMAX")
     pp_min: float = Field(alias="PPMIN")
@@ -38,6 +38,15 @@ class MarketSelection(BaseResource):
                 pass
             return datetime.fromisoformat(v)
 
+    @validator("bsp", "pp_wap", pre=True)
+    def parse_bsp(cls, v) -> Optional[float]:
+        if math.isnan(v):
+            return
+        elif isinstance(v, float):
+            return v
+        elif isinstance(v, int):
+            return float(v)
+
     @property
     def market_id(self) -> str:
         return f"1.{self.event_id}"
@@ -47,8 +56,8 @@ class MarketSelection(BaseResource):
         return (
             True
             if (self.is_place_market is False)
-               and (self.is_forecast_market is False)
-               and (self.is_alternative_market is False)
+            and (self.is_forecast_market is False)
+            and (self.is_alternative_market is False)
             else False
         )
 
@@ -69,6 +78,6 @@ class MarketSelection(BaseResource):
         return (
             True
             if (self.event_name.lower() in ["official going", "each way", "yes", "no"])
-               or ("tbp" in self.event_name.lower())
+            or ("tbp" in self.event_name.lower())
             else False
         )

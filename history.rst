@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+0.0.8 (07-03-2022)
++++++++++++++++++++
+**bsp/pp_wap parsed to None**
+
+- bsp/pp_wap validated to None from Nan
+
 0.0.7 (05-03-2022)
 +++++++++++++++++++
 **Selection country added for horses**
