@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+0.0.9 (08-03-2022)
++++++++++++++++++++
+**bsp/pp_wap parsed Bug**
+
+- None value threw error in parses for math.isnan() function.
+
 0.0.8 (07-03-2022)
 +++++++++++++++++++
 **bsp/pp_wap parsed to None**

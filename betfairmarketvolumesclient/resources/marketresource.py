@@ -40,12 +40,13 @@ class MarketSelection(BaseResource):
 
     @validator("bsp", "pp_wap", pre=True)
     def parse_bsp(cls, v) -> Optional[float]:
-        if math.isnan(v):
-            return
-        elif isinstance(v, float):
-            return v
-        elif isinstance(v, int):
-            return float(v)
+        if v:
+            if math.isnan(v):
+                return
+            elif isinstance(v, float):
+                return v
+            elif isinstance(v, int):
+                return float(v)
 
     @property
     def market_id(self) -> str:
