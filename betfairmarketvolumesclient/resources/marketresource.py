@@ -16,7 +16,7 @@ class MarketSelection(BaseResource):
     win_lose: int = Field(alias="WIN_LOSE")
     bsp: Optional[float] = Field(alias="BSP", default=None)
     pp_wap: Optional[float] = Field(alias="PPWAP", default=None)
-    morning_wap: float = Field(alias="PPMIN")
+    morning_wap: float = Field(alias="MORNINGWAP")
     pp_max: float = Field(alias="PPMAX")
     pp_min: float = Field(alias="PPMIN")
     ip_max: float = Field(alias="IPMAX")
