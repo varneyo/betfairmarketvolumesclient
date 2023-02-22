@@ -4,10 +4,10 @@ from betfairmarketvolumesclient import Client
 client = Client()
 
 # get today's horse racing selections
-horse_racing_selections = client.get_gb_win_horse_racing_markets(
-    date=datetime(2018,3,25)
+horse_racing_selections = client.get_horse_racing_markets_for_date(
+    date=datetime(2020,1,1)
 )
-all = []
+
 for h in horse_racing_selections:
     if h.event_id == 141674319:
         all.append(h)

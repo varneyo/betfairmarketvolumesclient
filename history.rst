@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+0.0.10 (08-03-2022)
++++++++++++++++++++
+**lower case column names handling**
+
+- Handling of lower case column names in csv files
+
 0.0.9 (08-03-2022)
 +++++++++++++++++++
 **bsp/pp_wap parsed Bug**

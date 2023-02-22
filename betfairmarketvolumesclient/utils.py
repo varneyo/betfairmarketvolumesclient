@@ -12,14 +12,15 @@ logger = logging.getLogger(__name__)
 def parse_from_data_frame(
     data: DataFrame, file_url: str, country: str
 ) -> List[MarketSelection]:
+    all: List[MarketSelection] = []
     if isinstance(data, DataFrame):
         try:
-            return [
-                MarketSelection(**{**d, **{"_file_url": file_url, "country": country}})
-                for d in data.to_dict("records")
-            ]
+            data.columns = [x.upper() for x in data.columns]
+            for d in data.to_dict("records"):
+                all.append(MarketSelection(**{**d, **{"_file_url": file_url, "country": country}}))
         except Exception as e:
             logger.error(f"Issue parsing selections, {e}")
+        return all
     return []
 
 
