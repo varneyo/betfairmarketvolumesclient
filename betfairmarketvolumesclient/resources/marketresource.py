@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Union, Optional
+from typing import Optional
 import math
-from pydantic import Field, validator
+from pydantic import Field, computed_field, model_validator
 
 from .baseresource import BaseResource
 
@@ -14,8 +14,8 @@ class MarketSelection(BaseResource):
     selection_id: int = Field(alias="SELECTION_ID")
     selection_name: str = Field(alias="SELECTION_NAME")
     win_lose: int = Field(alias="WIN_LOSE")
-    bsp: Optional[float] = Field(alias="BSP", default=None)
-    pp_wap: Optional[float] = Field(alias="PPWAP", default=None)
+    bsp: Optional[float] = Field(None, alias="BSP")
+    pp_wap: Optional[float] = Field(None, alias="PPWAP")
     morning_wap: float = Field(alias="MORNINGWAP")
     pp_max: float = Field(alias="PPMAX")
     pp_min: float = Field(alias="PPMIN")
@@ -27,31 +27,37 @@ class MarketSelection(BaseResource):
     country: Optional[str] = None
     _file_url: Optional[str] = None
 
-    @validator("event_dt", pre=True)
-    def parse_event_dt(cls, v: Union[datetime, str]) -> datetime:
-        if isinstance(v, datetime):
-            return v
-        if isinstance(v, str):
+    @model_validator(mode='before')
+    def parse_event_dt(cls, data: dict) -> dict:
+        if isinstance(data.get("EVENT_DT"), str):
             try:
-                return datetime.strptime(v, "%d-%m-%Y %H:%M")
+                data["EVENT_DT"] = datetime.strptime(data["EVENT_DT"], "%d-%m-%Y %H:%M")
             except ValueError:
-                pass
-            return datetime.fromisoformat(v)
+                data["EVENT_DT"] = datetime.fromisoformat(data["EVENT_DT"])
+        return data
 
-    @validator("bsp", "pp_wap", pre=True)
-    def parse_bsp(cls, v) -> Optional[float]:
-        if v:
-            if math.isnan(v):
-                return
-            elif isinstance(v, float):
-                return v
-            elif isinstance(v, int):
-                return float(v)
+    @model_validator(mode='before')
+    def parse_bsp_ppwap(cls, data: dict) -> dict:
+        for field in ["BSP", "PPWAP"]:
+            v = data.get(field)
+            if v:
+                if math.isnan(v):
+                    data[field] = None
+                elif isinstance(v, int):
+                    data[field] = float(v)
+        return data
 
+    @computed_field
+    @property
+    def file_url(self) -> Optional[str]:
+        return self._file_url
+
+    @computed_field
     @property
     def market_id(self) -> str:
         return f"1.{self.event_id}"
 
+    @computed_field
     @property
     def is_win_market(self) -> bool:
         return (
@@ -62,10 +68,12 @@ class MarketSelection(BaseResource):
             else False
         )
 
+    @computed_field
     @property
     def is_place_market(self) -> bool:
         return True if self.event_name.lower() == "to be placed" else False
 
+    @computed_field
     @property
     def is_forecast_market(self) -> bool:
         return (
@@ -74,6 +82,7 @@ class MarketSelection(BaseResource):
             else False
         )
 
+    @computed_field
     @property
     def is_alternative_market(self) -> bool:
         return (

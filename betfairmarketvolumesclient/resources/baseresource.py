@@ -1,25 +1,23 @@
-from pydantic import BaseModel
+from typing import Optional, Dict, Any
+from pydantic import BaseModel, ConfigDict
 
 
 class BaseResource(BaseModel):
-    _raw: dict
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        extra='allow'
+    )
 
-    class Config:
-        allow_population_by_field_name = True
-        allow_mutation = True
-        allow = "allow"
+    def info(self) -> Dict[str, Any]:
+        return self.model_dump()
 
-    @property
-    def info(self):
-        return self.dict()
-
-    @property
-    def _raw(self, exclude_fields: dict = None):
+    def raw(self, exclude_fields: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         exclude_fields = exclude_fields if exclude_fields else {}
         assert isinstance(exclude_fields, dict)
-        return self.dict(by_alias=True, exclude=exclude_fields)
+        return self.model_dump(by_alias=True, exclude=exclude_fields)
 
-    # helper function for backwards compatibility ?
+    # helper function for backwards compatibility
     @classmethod
-    def create_from_dict(cls, d):
-        return cls.parse_obj(d)
+    def create_from_dict(cls, d: Dict[str, Any]) -> "BaseResource":
+        return cls.model_validate(d)

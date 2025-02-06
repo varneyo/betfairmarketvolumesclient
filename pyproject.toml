@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "betfairmarketvolumesclient"
+version = "0.0.11"
+description = "Simple file downloader for the betfair daily sp files."
+authors = ["Oliver Varney <oliverashleyvarney@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/varneyo/betfairmarketvolumesclient"
+packages = [{include = "betfairmarketvolumesclient"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: MIT License",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = ">=2.10.0"
+pandas = "^2.2.0"
+tenacity = "^8.2.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-mock = "^3.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

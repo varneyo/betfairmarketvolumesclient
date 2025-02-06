@@ -1,5 +1,0 @@
-pytest
-pydantic
-pandas
-tenacity
-pytest_mock
