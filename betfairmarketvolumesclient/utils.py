@@ -27,7 +27,7 @@ def parse_from_data_frame(
 def parse_to_data_frame(data: List[MarketSelection]) -> Optional[DataFrame]:
     if isinstance(data, list):
         try:
-            return DataFrame([d.dict() for d in data])
+            return DataFrame([d.model_dump() for d in data])
         except Exception as e:
             logger.error(f"Issue parsing selections, {e}")
 

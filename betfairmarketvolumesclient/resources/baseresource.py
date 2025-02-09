@@ -11,13 +11,13 @@ class BaseResource(BaseModel):
 
     @property
     def info(self):
-        return self.dict()
+        return self.model_dump()
 
     @property
     def _raw(self, exclude_fields: dict = None):
         exclude_fields = exclude_fields if exclude_fields else {}
         assert isinstance(exclude_fields, dict)
-        return self.dict(by_alias=True, exclude=exclude_fields)
+        return self.model_dump(by_alias=True, exclude=exclude_fields)
 
     # helper function for backwards compatibility ?
     @classmethod

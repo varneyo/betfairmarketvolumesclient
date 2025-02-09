@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union, Optional
 import math
-from pydantic import Field, validator
+from pydantic import Field, field_validator
 
 from .baseresource import BaseResource
 
@@ -27,7 +27,7 @@ class MarketSelection(BaseResource):
     country: Optional[str] = None
     _file_url: Optional[str] = None
 
-    @validator("event_dt", pre=True)
+    @field_validator("event_dt", mode="before")
     def parse_event_dt(cls, v: Union[datetime, str]) -> datetime:
         if isinstance(v, datetime):
             return v
@@ -38,7 +38,7 @@ class MarketSelection(BaseResource):
                 pass
             return datetime.fromisoformat(v)
 
-    @validator("bsp", "pp_wap", pre=True)
+    @field_validator("bsp", mode="before")
     def parse_bsp(cls, v) -> Optional[float]:
         if v:
             if math.isnan(v):
