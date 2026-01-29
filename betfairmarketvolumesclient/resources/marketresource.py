@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union, Optional
 import math
-from pydantic import Field, field_validator
+from pydantic import Field, computed_field, field_validator
 
 from .baseresource import BaseResource
 
@@ -28,7 +28,6 @@ class MarketSelection(BaseResource):
     _file_url: Optional[str] = None
 
     @field_validator("event_dt", mode="before")
-    @classmethod
     def parse_event_dt(cls, v: Union[datetime, str]) -> datetime:
         if isinstance(v, datetime):
             return v
@@ -39,21 +38,27 @@ class MarketSelection(BaseResource):
                 pass
             return datetime.fromisoformat(v)
 
-    @field_validator("bsp", "pp_wap", mode="before")
-    @classmethod
+    @field_validator("bsp","pp_wap", mode="before")
     def parse_bsp(cls, v) -> Optional[float]:
-        if v is None:
-            return None
-        if isinstance(v, float) and math.isnan(v):
-            return None
-        if isinstance(v, (float, int)):
-            return float(v)
-        return None
+        if v:
+            if math.isnan(v):
+                return
+            elif isinstance(v, float):
+                return v
+            elif isinstance(v, int):
+                return float(v)
 
+    @computed_field
+    @property
+    def file_url(self) -> Optional[str]:
+        return self._file_url
+
+    @computed_field
     @property
     def market_id(self) -> str:
         return f"1.{self.event_id}"
 
+    @computed_field
     @property
     def is_win_market(self) -> bool:
         return (
@@ -64,10 +69,12 @@ class MarketSelection(BaseResource):
             else False
         )
 
+    @computed_field
     @property
     def is_place_market(self) -> bool:
         return True if self.event_name.lower() == "to be placed" else False
 
+    @computed_field
     @property
     def is_forecast_market(self) -> bool:
         return (
@@ -76,6 +83,7 @@ class MarketSelection(BaseResource):
             else False
         )
 
+    @computed_field
     @property
     def is_alternative_market(self) -> bool:
         return (
