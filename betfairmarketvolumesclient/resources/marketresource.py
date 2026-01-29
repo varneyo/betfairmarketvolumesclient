@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union, Optional
 import math
-from pydantic import Field, validator
+from pydantic import Field, field_validator
 
 from .baseresource import BaseResource
 
@@ -16,18 +16,19 @@ class MarketSelection(BaseResource):
     win_lose: int = Field(alias="WIN_LOSE")
     bsp: Optional[float] = Field(alias="BSP", default=None)
     pp_wap: Optional[float] = Field(alias="PPWAP", default=None)
-    morning_wap: float = Field(alias="MORNINGWAP")
-    pp_max: float = Field(alias="PPMAX")
-    pp_min: float = Field(alias="PPMIN")
-    ip_max: float = Field(alias="IPMAX")
-    ip_min: float = Field(alias="IPMIN")
-    morning_traded_volume: float = Field(alias="MORNINGTRADEDVOL")
-    pp_traded_volume: float = Field(alias="PPTRADEDVOL")
-    ip_traded_volume: float = Field(alias="IPTRADEDVOL")
+    morning_wap: Optional[float] = Field(alias="MORNINGWAP", default=None)
+    pp_max: Optional[float] = Field(alias="PPMAX", default=None)
+    pp_min: Optional[float] = Field(alias="PPMIN", default=None)
+    ip_max: Optional[float] = Field(alias="IPMAX", default=None)
+    ip_min: Optional[float] = Field(alias="IPMIN", default=None)
+    morning_traded_volume: Optional[float] = Field(alias="MORNINGTRADEDVOL", default=None)
+    pp_traded_volume: Optional[float] = Field(alias="PPTRADEDVOL", default=None)
+    ip_traded_volume: Optional[float] = Field(alias="IPTRADEDVOL", default=None)
     country: Optional[str] = None
     _file_url: Optional[str] = None
 
-    @validator("event_dt", pre=True)
+    @field_validator("event_dt", mode="before")
+    @classmethod
     def parse_event_dt(cls, v: Union[datetime, str]) -> datetime:
         if isinstance(v, datetime):
             return v
@@ -38,15 +39,16 @@ class MarketSelection(BaseResource):
                 pass
             return datetime.fromisoformat(v)
 
-    @validator("bsp", "pp_wap", pre=True)
+    @field_validator("bsp", "pp_wap", mode="before")
+    @classmethod
     def parse_bsp(cls, v) -> Optional[float]:
-        if v:
-            if math.isnan(v):
-                return
-            elif isinstance(v, float):
-                return v
-            elif isinstance(v, int):
-                return float(v)
+        if v is None:
+            return None
+        if isinstance(v, float) and math.isnan(v):
+            return None
+        if isinstance(v, (float, int)):
+            return float(v)
+        return None
 
     @property
     def market_id(self) -> str:

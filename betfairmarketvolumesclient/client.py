@@ -21,6 +21,10 @@ class Client:
 
     def __init__(self, request_timeout_sec: int = 120):
         self.request_timeout_sec = request_timeout_sec  # TODO
+        self.csv_name = ['EVENT_ID', 'MENU_HINT', 'EVENT_NAME', 'EVENT_DT', 'SELECTION_ID', 'SELECTION_NAME',
+                         'WIN_LOSE', 'BSP', 'PPWAP', 'MORNINGWAP', 'PPMAX', 'PPMIN', 'IPMAX',	'IPMIN',	'MORNINGTRADEDVOL',
+                         'PPTRADEDVOL',	'IPTRADEDVOL',
+                         ]
 
     @retry(
         wait=wait_exponential(multiplier=1, min=4, max=10), stop=stop_after_attempt(3)
@@ -29,7 +33,7 @@ class Client:
 
         logger.info(f"Requesting data for {url}")
         try:
-            return pd.read_csv(url)
+            return pd.read_csv(url, names=self.csv_name, header=0)
         except HTTPError as e:
             if e.status == 404:
                 logger.info(
@@ -47,7 +51,7 @@ class Client:
 
     def get_gb_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL, country="uk", win_or_place="win", date=date
+            base_url=self.BASE_URL, country="uk", win_or_place="win", date=date
         )
         return self._process_data(
             self._request(
@@ -61,11 +65,11 @@ class Client:
             self, date: datetime
     ) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL,
-                    country="uk",
-                    win_or_place="place",
-                    date=date,
-                )
+            base_url=self.BASE_URL,
+            country="uk",
+            win_or_place="place",
+            date=date,
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -76,8 +80,8 @@ class Client:
 
     def get_ire_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL, country="ire", win_or_place="win", date=date
-                )
+            base_url=self.BASE_URL, country="ire", win_or_place="win", date=date
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -90,11 +94,11 @@ class Client:
             self, date: datetime
     ) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL,
-                    country="ire",
-                    win_or_place="place",
-                    date=date,
-                )
+            base_url=self.BASE_URL,
+            country="ire",
+            win_or_place="place",
+            date=date,
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -105,8 +109,8 @@ class Client:
 
     def get_aus_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL, country="aus", win_or_place="win", date=date
-                )
+            base_url=self.BASE_URL, country="aus", win_or_place="win", date=date
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -119,11 +123,11 @@ class Client:
             self, date: datetime
     ) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL,
-                    country="aus",
-                    win_or_place="place",
-                    date=date,
-                )
+            base_url=self.BASE_URL,
+            country="aus",
+            win_or_place="place",
+            date=date,
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -134,8 +138,8 @@ class Client:
 
     def get_usa_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL, country="usa", win_or_place="win", date=date
-                )
+            base_url=self.BASE_URL, country="usa", win_or_place="win", date=date
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -148,11 +152,11 @@ class Client:
             self, date: datetime
     ) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL,
-                    country="usa",
-                    win_or_place="place",
-                    date=date,
-                )
+            base_url=self.BASE_URL,
+            country="usa",
+            win_or_place="place",
+            date=date,
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -163,8 +167,8 @@ class Client:
 
     def get_rsa_win_horse_racing_markets(self, date: datetime) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL, country="rsa", win_or_place="win", date=date
-                )
+            base_url=self.BASE_URL, country="rsa", win_or_place="win", date=date
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -177,11 +181,11 @@ class Client:
             self, date: datetime
     ) -> List[MarketSelection]:
         file_url = build_horse_racing_url(
-                    base_url=self.BASE_URL,
-                    country="rsa",
-                    win_or_place="place",
-                    date=date,
-                )
+            base_url=self.BASE_URL,
+            country="rsa",
+            win_or_place="place",
+            date=date,
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -245,8 +249,8 @@ class Client:
 
     def get_greyhound_win_markets(self, date: datetime) -> List[MarketSelection]:
         file_url = build_greyhound_url(
-                    base_url=self.BASE_URL, win_or_place="win", date=date
-                )
+            base_url=self.BASE_URL, win_or_place="win", date=date
+        )
         return self._process_data(
             self._request(
                 url=file_url
@@ -257,8 +261,8 @@ class Client:
 
     def get_greyhound_place_markets(self, date: datetime) -> List[MarketSelection]:
         file_url = build_greyhound_url(
-                    base_url=self.BASE_URL, win_or_place="place", date=date
-                )
+            base_url=self.BASE_URL, win_or_place="place", date=date
+        )
         return self._process_data(
             self._request(
                 url=file_url

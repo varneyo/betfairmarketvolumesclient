@@ -6,3 +6,7 @@ misc.xml
 /build
 /dist
 *.egg-info
+/venv
+/.venv
+uv.lock
+__pycache__

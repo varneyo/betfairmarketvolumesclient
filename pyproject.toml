@@ -1,0 +1,43 @@
+[project]
+name = "betfairmarketvolumesclient"
+version = "0.0.11"
+description = "Simple file downloader for the betfair daily sp files."
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Oliver Varney", email = "oliverashleyvarney@gmail.com" }
+]
+keywords = ["core packages"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: MIT License",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.2",
+    "pydantic>=2.0",
+    "tenacity>=8.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/varneyo/betfairmarketvolumesclient"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-mock>=3.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["betfairmarketvolumesclient"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0",
+    "pytest-mock>=3.0",
+]
